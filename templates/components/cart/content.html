@@ -1,0 +1,124 @@
+<div class="cart" data-cart-quantity="{{cart.quantity}}">
+   
+    {{#each cart.items}}
+  
+    <div class="cart-item" data-item-row data-brand="{{brand.name}}" data-name="{{name}}" >
+                    
+            <div class="product-item"  data-price="${{toFixed (multiply quantity price.value) 2}}" data-sku="{{sku}}">
+                                          
+                <div class="cart-item-block cart-item-figure">
+                    {{#if type '==' 'GiftCertificate'}}
+                        <img
+                            class="cart-item-fixed-image"
+                            src="{{cdn ../theme_settings.default_image_gift_certificate}}"
+                            alt="{{lang 'cart.gift_certificates.gift_certificate'}}"
+                            title="{{lang 'cart.gift_certificates.gift_certificate'}}"
+                        >
+                    {{else}}
+                        {{> components/common/responsive-img
+                            image=image
+                            class="cart-item-image"
+                            fallback_size=../theme_settings.productthumb_size
+                            lazyload="lazyload"
+                            default_image=../theme_settings.default_image_product
+                        }}
+                    {{/if}}
+                    </div>
+                             
+                    <h2 class="cart-item-name">
+                        <a class="cart-item-name__label" href="{{url}}">{{name}}</a>
+                    </h2>
+
+                 <!----------------------------------------------------->
+                    <div class="brand-name">
+                    {{#if brand.name}}
+                   <p class="cart-item-brand"> <span style="color:black;font-size:16px;">From: </span> {{brand.name}}</p>
+                      </div>
+                      {{/if}}
+                 <!----------------------------------------------------->
+                      
+                        {{#if release_date}}
+                            <p>({{release_date}})</p>
+                        {{/if}}
+
+                 <!----------------------------------------------------->
+
+                 <div class="price-and-quantity"> 
+            
+                    <label class="form-label cart-item-label" for="qty-{{id}}">{{lang 'products.quantity'}}</label>Qty:
+                    <div class="form-increment">
+                        {{#if can_modify}}
+                            <button class="button button--icon"
+                                    data-cart-update
+                                    data-cart-itemid="{{id}}"
+                                    data-action="dec"
+                            >
+                                <span class="is-srOnly">{{lang 'products.quantity_decrease' name=name}}</span>
+                                <i class="icon" aria-hidden="true"><svg><use href="#icon-keyboard-arrow-down" /></svg></i>
+                            </button>
+                        {{/if}}
+                        <input class="form-input form-input--incrementTotal cart-item-qty-input"
+                               id="qty-{{id}}"
+                               name="qty-{{id}}"
+                               type="tel"
+                               value="{{quantity}}"
+                               data-quantity-min="{{min_purchase_quantity}}"
+                               data-quantity-max="{{max_purchase_quantity}}"
+                               data-quantity-min-error="{{lang 'products.quantity_min' quantity=min_purchase_quantity}}"
+                               data-quantity-max-error="{{lang 'products.quantity_max' quantity=max_purchase_quantity}}"
+                               min="1"
+                               pattern="[0-9]*"
+                               data-cart-itemid="{{id}}"
+                               data-action="manualQtyChange"
+                               aria-label="{{name}}"
+                               aria-live="polite"{{#unless can_modify}} disabled{{/unless}}>
+                        {{#if can_modify}}
+                            <button class="button button--icon"
+                                    data-cart-update
+                                    data-cart-itemid="{{id}}"
+                                    data-action="inc"
+                            >
+                                <span class="is-srOnly">{{lang 'products.quantity_increase' name=name}}</span>
+                                <i class="icon" aria-hidden="true"><svg><use href="#icon-keyboard-arrow-up" /></svg></i>
+                            </button>
+                        {{/if}}
+                                 
+                        <span class="cart-item-label">{{lang 'cart.checkout.price'}}</span>
+                        {{#or ../customer (unless ../settings.hide_price_from_guests) (if type '==' 'GiftCertificate')}}
+                         
+                            <span class="cart-item-value {{#if price_discounted}}price--discounted{{/if}}">
+                             ${{toFixed (multiply quantity price.value) 2}} <span class="original-price-{{{@index}}}"></span>
+                                  </span>  
+                                                       
+                            {{#if price_discounted}}
+                                <span class="cart-item-value">{{price_discounted.formatted}}</span>
+                            {{/if}}
+                        {{else}}
+                            {{> components/common/login-for-pricing}}
+                        {{/or}}
+
+                       {{#or can_modify (if type '==' 'GiftCertificate')}}
+                        <button class="cart-remove icon"
+                                data-cart-itemid="{{id}}"
+                                data-confirm-delete="{{lang 'cart.confirm_delete'}}"
+                                aria-label="{{lang 'cart.remove_item' name=name}}"
+                        >
+                            <svg><use href="#icon-close"></use></svg>
+                        </button>
+                    {{/or}}
+
+                    </div>
+             
+                </div>
+
+                 <!----------------------------------------------------->                    
+          
+                </div>
+  
+            </div>
+
+ 
+    {{/each}}
+</div>
+
+</div>

@@ -1,0 +1,172 @@
+<nav class="navUser">
+    {{#or customer (unless settings.hide_price_from_guests)}}
+        {{> components/common/currency-selector}}
+    {{/or}}
+
+    <ul class="navUser-section navUser-section--alt">
+        {{#if customer.store_credit.value '>' 0}}
+        
+            <li class="navUser-item"> 
+                <a class="navUser-action navUser-action--storeCredit"
+                   data-dropdown="storeCredit-dropdown"
+                   data-options="align:bottom"
+                   href="{{urls.cart}}"
+                   aria-label="{{lang 'common.store_credit_overview' credit=customer.store_credit.formatted}}"
+                >
+                    <span class="navUser-action-divider">
+                        {{lang 'common.store_credit_overview' credit=customer.store_credit.formatted}}
+                    </span>
+                </a>
+                <div class="dropdown-menu" id="storeCredit-dropdown" data-dropdown-content aria-hidden="true">
+                    {{{lang 'common.store_credit' store_credit=customer.store_credit.formatted}}}
+                </div>
+            </li>
+
+        {{/if}}
+
+        <!-- <li class="navUser-item">
+            <a class="navUser-action navUser-item--compare"
+               href="{{urls.compare}}"
+               data-compare-nav
+               aria-label="{{lang 'common.compare'}}"
+            >
+                {{lang 'common.compare'}} <span class="countPill countPill--positive countPill--alt"></span>
+            </a>
+        </li> -->
+
+        {{#if theme_settings.social_icon_placement_top}}
+            <li class="navUser-item navUser-item--social">
+                {{> components/common/social-links}}
+            </li>
+            <li class="navUser-item navUser-item--divider">|</li>
+        {{/if}}
+        <li class="navUser-item navUser-item--account">
+
+         {{#if customer}} 
+                    <a class="navUser-action" href="{{urls.account.index}}" aria-label="{{lang 'common.account'}}" > 
+                    {{lang 'common.account'}} </a> <a class="navUser-action" href="{{urls.auth.logout}}" aria-label="{{lang 'common.logout'}}" > {{lang 'common.logout'}} </a> 
+                    {{else}} <a class="navUser-action" id="signInTrig" href="{{urls.auth.login}}" aria-label="{{lang 'common.login'}}" > {{lang 'common.login'}} </a> 
+                    {{/if}}
+        </li>
+<!-- 
+
+        <li class="navUser-item navUser-item--account">
+            {{#if customer}}
+                <a class="navUser-action"
+                   href="{{urls.account.index}}"
+                   aria-label="{{lang 'common.account'}}"
+                >
+                    {{lang 'common.account'}}
+                </a>
+                <a class="navUser-action"
+                   href="{{urls.auth.logout}}"
+                   aria-label="{{lang 'common.logout'}}"
+                >
+                    {{lang 'common.logout'}}
+                </a>
+            {{else}}
+                <a class="navUser-action"
+                   href="{{urls.auth.login}}"
+                   aria-label="{{lang 'common.login'}}"
+                >
+                    {{lang 'common.login'}}
+                </a>
+                {{#if settings.account_creation_enabled}}
+                    <span class="navUser-or">{{lang 'common.or'}}</span>
+                    <a class="navUser-action"
+                       href="{{urls.auth.create_account}}"
+                       aria-label="{{lang 'common.sign_up'}}"
+                    >
+                        {{lang 'common.sign_up'}}
+                    </a>
+                {{/if}}
+            {{/if}}
+        </li> -->
+
+        <li class="navUser-item navUser-item--cart">
+            <a class="navUser-action"
+               data-cart-preview
+               data-dropdown="cart-preview-dropdown"
+               data-options="align:right"
+               href="{{urls.cart}}"
+               aria-label="{{lang 'cart.nav_aria_label'}}"
+            >
+            <svg class="navUser-item-cartLabel" style="width:34px;height:33px" viewBox="0 0 29 29">
+                <path fill="currentColor" d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z" /> </svg> 
+              
+                <!-- <span class="navUser-item-cartLabel">{{lang 'common.cart'}}</span> -->
+                <span class="countPill cart-quantity"></span>
+            </a>
+
+            <div class="dropdown-menu" id="cart-preview-dropdown"></div>
+        </li>
+    </ul>
+    <div class="dropdown dropdown--quickSearch" id="quickSearch" aria-hidden="true" data-prevent-quick-search-close>
+        {{> components/common/quick-search name='nav-quick-search'}}
+    </div>
+</nav>
+
+
+<!-- 
+<nav class="navUser">   
+     {{#or customer (unless settings.hide_price_from_guests)}}
+      {{> components/common/currency-selector}}
+      {{/or}}
+
+      <ul class="navUser-section navUser-section--alt">
+         {{#if customer.store_credit.value '>' 0}} 
+         <li class="navUser-item"> 
+            <a class="navUser-action navUser-action--storeCredit" 
+            data-dropdown="storeCredit-dropdown" 
+            data-options="align:bottom" 
+            href="{{urls.cart}}" 
+            aria-label="{{lang 'common.store_credit_overview' credit=customer.store_credit.formatted}}"
+             > 
+
+            <span class="navUser-action-divider">
+         {{lang 'common.store_credit_overview' credit=customer.store_credit.formatted}} 
+        </span>
+         </a>
+
+         <div class="dropdown-menu" id="storeCredit-dropdown" data-dropdown-content aria-hidden="true"> 
+            {{{lang 'common.store_credit' store_credit=customer.store_credit.formatted}}} 
+        </div> 
+    </li>
+            {{/if}}
+
+
+             {{#if theme_settings.social_icon_placement_top}} 
+             <li class="navUser-item navUser-item--social">
+                 {{> components/common/social-links}} </li>
+                  <li class="navUser-item navUser-item--divider">|</li> 
+                 {{/if}}
+
+                 <li class="navUser-item navUser-item--account"> 
+                    {{#if customer}} 
+                    <a class="navUser-action" href="{{urls.account.index}}" aria-label="{{lang 'common.account'}}" > 
+                    {{lang 'common.account'}} </a> <a class="navUser-action" href="{{urls.auth.logout}}" aria-label="{{lang 'common.logout'}}" > {{lang 'common.logout'}} </a> 
+                    {{else}} <a class="navUser-action" id="signInTrig" href="{{urls.auth.login}}" aria-label="{{lang 'common.login'}}" > {{lang 'common.login'}} </a> 
+                    {{/if}}
+            </li>                 
+
+            <li class="navUser-item navUser-item--cart"> 
+                <a class="navUser-action"
+                 data-cart-preview data-dropdown="cart-preview-dropdown"
+                 data-options="align:right"
+                  href="{{urls.cart}}" 
+                 aria-label="{{lang 'cart.nav_aria_label'}}" 
+                 > 
+
+                 <svg class="navUser-item-cartLabel" style="width:34px;height:33px" viewBox="0 0 29 29">
+                 <path fill="currentColor" d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z" /> </svg> 
+               
+                 <span class="countPill cart-quantity"></span>
+             </a> 
+             <div class="dropdown-menu" id="cart-preview-dropdown" ></div> 
+            </li>
+         </ul>
+         
+         <div class="dropdown dropdown--quickSearch" id="quickSearch" aria-hidden="true" data-prevent-quick-search-close>
+         {{> components/common/quick-search name='nav-quick-search'}} 
+        </div>
+        </nav> -->
